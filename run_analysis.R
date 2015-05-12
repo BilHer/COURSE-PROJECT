@@ -1,14 +1,14 @@
 library(plyr)
-if(!file.exists("./data")){dir.create("./data")}
+if(!file.exists("./R/data")){dir.create("./R/data")}
 fileUrl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
-download.file(fileUrl, destfile = "./data/Dataset.zip",method="auto")
+download.file(fileUrl, destfile = "./R/data/Dataset.zip",method="auto")
 
 ##Descomprimir archivo
-unzip(zipfile = "./data/Dataset.zip", exdir = "./data")
+unzip(zipfile = "./R/data/Dataset.zip", exdir = "./data")
 
 ##Descomprimir archivo que se encuentran en la carpeta UCI HAR Dataset. 
 #Obtener la lista de los archivos
-path_rf <- file.path("./data" , "UCI HAR Dataset")
+path_rf <- file.path("./R/data", "UCI HAR Dataset")
 files <- list.files(path_rf, recursive = TRUE)
 files
 feature_file <- paste(path_rf, "/features.txt", sep = "")
@@ -35,15 +35,15 @@ names(dataActivity) <- c("activity")
 
 # Leer los datos de los archivos en las variables
 ## Leer los archivos de Actividad
-dataActivityTest  <- read.table(file.path(path_rf, "test" , "Y_test.txt" ), header = FALSE)
+dataActivityTest  <- read.table(file.path(path_rf, "test", "Y_test.txt"), header = FALSE)
 dataActivityTrain <- read.table(file.path(path_rf, "train", "Y_train.txt"), header = FALSE)
 
 ##Leer los archivos Subject
 dataSubjectTrain <- read.table(file.path(path_rf, "train", "subject_train.txt"), header = FALSE)
-dataSubjectTest  <- read.table(file.path(path_rf, "test" , "subject_test.txt"), header = FALSE)
+dataSubjectTest  <- read.table(file.path(path_rf, "test", "subject_test.txt"), header = FALSE)
 
 ##Leer los archivos Features
-dataFeaturesTest  <- read.table(file.path(path_rf, "test" , "X_test.txt" ), header = FALSE)
+dataFeaturesTest  <- read.table(file.path(path_rf, "test", "X_test.txt"), header = FALSE)
 dataFeaturesTrain <- read.table(file.path(path_rf, "train", "X_train.txt"), header = FALSE)
 
 ## Mira las propiedades de las varibles anteriores
@@ -58,14 +58,14 @@ str(dataFeaturesTrain)
 #1. Merges the training and the test sets to create one data set
 ##Concatenar las tablas de datos por filas
 dataSubject <- rbind(dataSubjectTrain, dataSubjectTest)
-dataActivity<- rbind(dataActivityTrain, dataActivityTest)
-dataFeatures<- rbind(dataFeaturesTrain, dataFeaturesTest)
+dataActivity <- rbind(dataActivityTrain, dataActivityTest)
+dataFeatures <- rbind(dataFeaturesTrain, dataFeaturesTest)
 
 ##Nombrar variables
 names(dataSubject) <- c("subject")
 names(dataActivity) <- c("activity")
-dataFeaturesNames <- read.table(file.path(path_rf, "features.txt"),head=FALSE)
-names(dataFeatures)<- dataFeaturesNames$V2
+dataFeaturesNames <- read.table(file.path(path_rf, "features.txt"), head=FALSE)
+names(dataFeatures) <- dataFeaturesNames$V2
 
 ##Combinar columnas para obtener los datos de trama de DATA para todos los datos
 dataCombine <- cbind(dataSubject, dataActivity)
