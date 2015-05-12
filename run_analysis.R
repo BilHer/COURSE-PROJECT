@@ -35,16 +35,16 @@ names(dataActivity) <- c("activity")
 
 # Leer los datos de los archivos en las variables
 ## Leer los archivos de Actividad
-dataActivityTest  <- read.table(file.path(path_rf, "test" , "Y_test.txt" ),header = FALSE)
-dataActivityTrain <- read.table(file.path(path_rf, "train", "Y_train.txt"),header = FALSE)
+dataActivityTest  <- read.table(file.path(path_rf, "test" , "Y_test.txt" ), header = FALSE)
+dataActivityTrain <- read.table(file.path(path_rf, "train", "Y_train.txt"), header = FALSE)
 
 ##Leer los archivos Subject
-dataSubjectTrain <- read.table(file.path(path_rf, "train", "subject_train.txt"),header = FALSE)
-dataSubjectTest  <- read.table(file.path(path_rf, "test" , "subject_test.txt"),header = FALSE)
+dataSubjectTrain <- read.table(file.path(path_rf, "train", "subject_train.txt"), header = FALSE)
+dataSubjectTest  <- read.table(file.path(path_rf, "test" , "subject_test.txt"), header = FALSE)
 
 ##Leer los archivos Features
-dataFeaturesTest  <- read.table(file.path(path_rf, "test" , "X_test.txt" ),header = FALSE)
-dataFeaturesTrain <- read.table(file.path(path_rf, "train", "X_train.txt"),header = FALSE)
+dataFeaturesTest  <- read.table(file.path(path_rf, "test" , "X_test.txt" ), header = FALSE)
+dataFeaturesTrain <- read.table(file.path(path_rf, "train", "X_train.txt"), header = FALSE)
 
 ## Mira las propiedades de las varibles anteriores
 str(dataActivityTest)
@@ -62,12 +62,12 @@ dataActivity<- rbind(dataActivityTrain, dataActivityTest)
 dataFeatures<- rbind(dataFeaturesTrain, dataFeaturesTest)
 
 ##Nombrar variables
-names(dataSubject)<-c("subject")
-names(dataActivity)<- c("activity")
+names(dataSubject) <- c("subject")
+names(dataActivity) <- c("activity")
 dataFeaturesNames <- read.table(file.path(path_rf, "features.txt"),head=FALSE)
 names(dataFeatures)<- dataFeaturesNames$V2
 
-##Combinar columnas para obtener los datos de trama de datos para todos los datos
+##Combinar columnas para obtener los datos de trama de DATA para todos los datos
 dataCombine <- cbind(dataSubject, dataActivity)
 Data <- cbind(dataFeatures, dataCombine)
 
@@ -77,19 +77,19 @@ Data <- cbind(dataFeatures, dataCombine)
 subdataFeaturesNames <- dataFeaturesNames$V2[grep("mean\\(\\)|std\\(\\)",
                                               dataFeaturesNames$V2)]
 
-##Subconjunto de datos de la trama de datos con nombres de selectedNames 
+##Subconjunto de datos de la trama de DATA con nombres de selectedNames 
 selectedNames<-c(as.character(subdataFeaturesNames), "subject", "activity" )
-Data<-subset(Data,select=selectedNames)
+Data <- subset(Data, select = selectedNames)
 
 ##Comprobar las estructuras de datos de la trama de datos
 str(Data)
 
 #3. Uses descriptive activity names to name the activities in the data set
-##Read descriptive activity names from “activity_labels.txt”
-activityLabels <- read.table(file.path(path_rf, "activity_labels.txt"),header = FALSE)
+##Leer los nombres descriptivos de actividad “activity_labels.txt”
+activityLabels <- read.table(file.path(path_rf, "activity_labels.txt"), header = FALSE)
 
 ##Comprobar
-head(Data$activity,30)
+head(Data$activity, 30)
 
 #4. Appropriately labels the data set with descriptive variable names
 names(Data) <- gsub("^t", "time", names(Data))
